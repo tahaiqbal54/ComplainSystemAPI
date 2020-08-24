@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="complainsystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="complain">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="complain_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Login" Relationship="Self.FK_complain_Login" FromRole="complain" ToRole="Login" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="complains" Relationship="Self.FK_complain_Login" FromRole="Login" ToRole="complain" />
+  </EntityType>
+  <Association Name="FK_complain_Login">
+    <End Role="Login" Type="Self.Login" Multiplicity="1" />
+    <End Role="complain" Type="Self.complain" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Login">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="complain">
+        <PropertyRef Name="user_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="complainsystemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="complains" EntityType="Self.complain" />
+    <EntitySet Name="Logins" EntityType="Self.Login" />
+    <AssociationSet Name="FK_complain_Login" Association="Self.FK_complain_Login">
+      <End Role="Login" EntitySet="Logins" />
+      <End Role="complain" EntitySet="complains" />
+    </AssociationSet>
+    <FunctionImport Name="LoginByUsernamePassword" ReturnType="Collection(complainsystemModel.LoginByUsernamePassword_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="LoginByUsernamePassword_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="username" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="password" Nullable="false" MaxLength="50" />
+  </ComplexType>
+</Schema>

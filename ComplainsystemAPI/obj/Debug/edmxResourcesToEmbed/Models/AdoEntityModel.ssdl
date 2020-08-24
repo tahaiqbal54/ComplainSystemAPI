@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="complainsystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="complain">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="complain_details" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_complain_Login">
+    <End Role="Login" Type="Self.Login" Multiplicity="1" />
+    <End Role="complain" Type="Self.complain" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Login">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="complain">
+        <PropertyRef Name="user_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="LoginByUsernamePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="varchar" Mode="In" />
+    <Parameter Name="password" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="complainsystemModelStoreContainer">
+    <EntitySet Name="complain" EntityType="Self.complain" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_complain_Login" Association="Self.FK_complain_Login">
+      <End Role="Login" EntitySet="Login" />
+      <End Role="complain" EntitySet="complain" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

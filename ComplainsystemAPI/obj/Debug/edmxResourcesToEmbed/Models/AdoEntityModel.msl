@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="complainsystemModelStoreContainer" CdmEntityContainer="complainsystemEntities">
+    <EntitySetMapping Name="complains">
+      <EntityTypeMapping TypeName="complainsystemModel.complain">
+        <MappingFragment StoreEntitySet="complain">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="complain_details" ColumnName="complain_details" />
+          <ScalarProperty Name="user_Id" ColumnName="user_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Logins">
+      <EntityTypeMapping TypeName="complainsystemModel.Login">
+        <MappingFragment StoreEntitySet="Login">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="LoginByUsernamePassword" FunctionName="complainsystemModel.Store.LoginByUsernamePassword">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="complainsystemModel.LoginByUsernamePassword_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>
